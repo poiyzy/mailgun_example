@@ -4,9 +4,7 @@ class MailgunGateway
         from: default_sender,
         to: delivery_filter(options[:to]),
         subject: options[:subject],
-        html: options[:body],
-        :"h:Reply-To" => options[:reply_to],
-        :"recipient-variables" => options[:recipient_variables]
+        html: billing_info_text(options[:body]),
         ) if Rails.env.staging? || Rails.env.production?
   end
 
@@ -26,5 +24,17 @@ class MailgunGateway
 
   def delivery_filter(emails)
     Rails.env.production? ? emails : "zhuoyuyang@gmail.com"
+  end
+
+  def billing_info_text(user)
+<<-EMAIL
+<html><body>
+
+Hi #{user.fullname},
+
+<p>Your account created at #{user.created_at}</p>
+
+</body></html>
+EMAIL
   end
 end
