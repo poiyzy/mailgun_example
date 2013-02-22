@@ -3,7 +3,7 @@ class Api::BouncedMailsController < ApplicationController
 
   def create
     user = User.where(email: params[:recipient]).first
-    if user && params[:event] == bounced
+    if user && params[:event] == "bounced"
       user.locked = true
       user.save
     end
