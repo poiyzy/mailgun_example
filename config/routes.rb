@@ -10,7 +10,7 @@ MailgunExample::Application.routes.draw do
   resources :users, only: [:create, :update, :edit]
 
   namespace "api" do
-    resources :bounced_emails, only: [:create]
+    resources :bounced_mails, only: [:create]
   end
 
   root to: "sessions#new"
