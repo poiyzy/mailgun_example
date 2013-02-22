@@ -4,7 +4,10 @@ MailgunExample::Application.routes.draw do
   post "login", to: "sessions#create", as: "login"
   get "sign_out", to: "sessions#destroy"
 
-  resources :users, only: [:create]
+  get "home", to: "static_pages#index"
+  get "billing", to: "static_pages#billing"
+
+  resources :users, only: [:create, :update, :edit]
 
   namespace "api" do
     resources :bounced_emails, only: [:create]
