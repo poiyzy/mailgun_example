@@ -1,17 +1,17 @@
 class MailgunGateway
   def send_batch_message(options={})
     RestClient.post(messaging_api_end_point,
-        from: default_sender,
-        to: delivery_filter(options[:to]),
-        subject: options[:subject],
-        html: billing_info_text(options[:body]),
-        ) if Rails.env.staging? || Rails.env.production?
+    from: default_sender,
+    to: delivery_filter(options[:to]),
+    subject: options[:subject],
+    html: billing_info_text(options[:body]),
+    )
   end
 
   private
 
   def default_sender
-    "Mailgun Demo"
+    "Mailgun Demo <billing-info@mailgun-demo.heroku.com>"
   end
 
   def api_key
@@ -22,8 +22,8 @@ class MailgunGateway
     @messaging_api_end_piont ||= "https://api:#{api_key}@api.mailgun.net/v2/zirannanren.com.mailgun.org/messages"
   end
 
-  def delivery_filter(emails)
-    Rails.env.production? ? emails : "zhuoyuyang@gmail.com"
+  def delivery_filter(email)
+    Rails.env.production? ? email : "zhuoyuyang@gmail.com"
   end
 
   def billing_info_text(user)
