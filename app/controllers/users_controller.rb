@@ -9,7 +9,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.update_attributes(params[:user])
+    @user = current_user
+    @user.attributes = params[:user]
+    @user.locked = false if @user.email_changed?
+    if @user.save(validate: false)
       flash[:success] = "Successful Update Your Account Info"
       redirect_to home_path
     else
