@@ -3,9 +3,9 @@ class Api::BouncedMailsController < ApplicationController
 
   def create
     user = User.find_by_email(params[:recipient])
-    if user
+    if user && params[:event] == "bounced"
       user.locked = true
-      user.save(validate: true)
+      user.save(validate: false)
     end
     head(200)
   end
