@@ -5,7 +5,7 @@ class MailgunGateway
     to: delivery_filter(options[:to]),
     subject: options[:subject],
     html: billing_info_text(options[:body]),
-    )
+    ) if Rails.env.staging? || Rails.env.production?
   end
 
   private
