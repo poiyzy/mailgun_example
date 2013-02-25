@@ -1,12 +1,14 @@
 class MailgunGateway
+  include Rails.application.routes.url_helpers
+
   def send_batch_message
     RestClient.post(messaging_api_end_point,
     from: "Mailgun Demo <billing-info@mailgun-demo.heroku.com>",
     to: billing_recipients.map(&:email).join(", "),
     subject: "Monthly Billing Info",
     html: billing_info_text,
-    recipient_variables: recipient_variables(billing_recipients),
-    ) if Rails.env.staging? || Rails.env.production?
+    :"recipient-variables" => recipient_variables(billing_recipients),
+    )
   end
 
   private
@@ -41,7 +43,7 @@ Your bill for the current month is now available, please click on
 <br/>
 #{billing_url}
 <br/>
-#to see details.
+to see details.
 </p>
 
 </body></html>
