@@ -2,16 +2,22 @@ class MailgunGateway
   include Rails.application.routes.url_helpers
 
   def send_batch_message
+    billing_recipients.find_in_batches do |group|
+      send_billings(group)
+    end
+  end
+
+  private
+
+  def send_billings(users)
     RestClient.post(messaging_api_end_point,
     from: "Mailgun Demo <billing-info@mailgun-demo.heroku.com>",
-    to: billing_recipients.map(&:email).join(", "),
+    to: users.map(&:email).join(", "),
     subject: "Monthly Billing Info",
     html: billing_info_text,
     :"recipient-variables" => recipient_variables(billing_recipients),
     )
   end
-
-  private
 
   def api_key
     @api_key ||= ENV["mailgun_api_key"]
@@ -22,7 +28,7 @@ class MailgunGateway
   end
 
   def billing_recipients
-    User.where(locked: false)
+    @users ||= User.where(locked: false)
   end
 
   def recipient_variables(recipients)
