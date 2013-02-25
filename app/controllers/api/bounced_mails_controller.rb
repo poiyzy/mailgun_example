@@ -2,11 +2,21 @@ class Api::BouncedMailsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    user = User.find_by_email(params[:recipient])
-    if user && params[:event] == "bounced"
-      user.locked = true
-      user.save(validate: false)
+    if verify(Rails.configuration.mailgun_api_key, params[:token], params[:timestamp], params[:signature])
+      user = User.find_by_email(params[:recipient])
+      if user && params[:event] == "bounced"
+        user.locked = true
+        user.save(validate: false)
+      end
+      head(200)
     end
-    head(200)
+  end
+
+  private
+  def verify(api_key, token, timestamp, signature)
+    signature == OpenSSL::HMAC.hexdigest(
+      OpenSSL::Digest::Digest.new('sha256'),
+      api_key,
+      '%s%s' % [timestamp, token])
   end
 end

@@ -15,7 +15,7 @@ class MailgunGateway
   end
 
   def api_key
-    @api_key ||= "key-62guu2fxc9qujx8rbl5ebylsx3pet451"
+    @api_key ||= Rails.configuration.mailgun_api_key
   end
 
   def messaging_api_end_point
