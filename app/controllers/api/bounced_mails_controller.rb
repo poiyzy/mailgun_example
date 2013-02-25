@@ -2,7 +2,7 @@ class Api::BouncedMailsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    if verify(Rails.configuration.mailgun_api_key, params[:token], params[:timestamp], params[:signature])
+    if verify(ENV["mailgun_api_key"], params[:token], params[:timestamp], params[:signature])
       user = User.find_by_email(params[:recipient])
       if user && params[:event] == "bounced"
         user.locked = true

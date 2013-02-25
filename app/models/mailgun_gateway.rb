@@ -15,15 +15,15 @@ class MailgunGateway
   end
 
   def api_key
-    @api_key ||= Rails.configuration.mailgun_api_key
+    @api_key ||= ENV["mailgun_api_key"]
   end
 
   def messaging_api_end_point
     @messaging_api_end_piont ||= "https://api:#{api_key}@api.mailgun.net/v2/zirannanren.com.mailgun.org/messages"
   end
 
-  def delivery_filter(email)
-    Rails.env.production? ? email : "zhuoyuyang@gmail.com"
+  def delivery_filter(emails)
+    Rails.env.production? ? emails : "zhuoyuyang@gmail.com"
   end
 
   def billing_info_text(user)
