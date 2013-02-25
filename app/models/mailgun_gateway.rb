@@ -11,7 +11,7 @@ class MailgunGateway
 
   def send_billings(users)
     RestClient.post(messaging_api_end_point,
-    from: "Mailgun Demo <billing-info@mailgun-demo.heroku.com>",
+    from: "Mailgun Demo <billing-info@#{ENV["mailgun_domain_name"]}>",
     to: users.map(&:email).join(", "),
     subject: "Monthly Billing Info",
     html: billing_info_text,

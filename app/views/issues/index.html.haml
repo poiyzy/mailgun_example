@@ -1,0 +1,21 @@
+%section.my_queue.container
+  .row
+    .span10.offset1
+      %article
+        %header
+          %h2 Issues
+        %table.table
+          %thead
+            %tr
+              %th(width="15%") Name
+              %th(width="15%") Email
+              %th(width="70%") Incomming Message
+          %tbody
+            - @issues.each do |issues|
+              %tr
+                %td
+                  = issues.user.fullname
+                %td
+                  = issues.user.email
+                %td
+                  = issues.user.content

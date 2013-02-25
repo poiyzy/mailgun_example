@@ -6,11 +6,13 @@ MailgunExample::Application.routes.draw do
 
   get "home", to: "static_pages#index"
   get "billing", to: "static_pages#billing"
+  get "issues", to: "issues#index"
 
   resources :users, only: [:create, :update, :edit]
 
   namespace "api" do
     resources :bounced_mails, only: [:create]
+    resources :incomming_issues, only: [:create]
   end
 
   root to: "sessions#new"

@@ -15,5 +15,6 @@
           %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
             %li
               = link_to "Account", edit_user_path(current_user)
+              = link_to "Issues", issues_path if current_user.is_admin
               = link_to "Plan and Billing", billing_path
               = link_to "Sign Out", sign_out_path

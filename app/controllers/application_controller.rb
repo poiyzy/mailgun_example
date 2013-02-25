@@ -12,4 +12,10 @@ class ApplicationController < ActionController::Base
       redirect_to sign_in_path
     end
   end
+
+  def require_admin
+    unless current_user && current_user.is_admin
+      redirect_to root_path
+    end
+  end
 end
