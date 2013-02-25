@@ -19,7 +19,7 @@ class MailgunGateway
   end
 
   def messaging_api_end_point
-    @messaging_api_end_piont ||= "https://api:#{api_key}@api.mailgun.net/v2/zirannanren.com.mailgun.org/messages"
+    @messaging_api_end_piont ||= "https://api:#{api_key}@api.mailgun.net/v2/#{ENV["mailgun_domain_name"]}/messages"
   end
 
   def delivery_filter(emails)
