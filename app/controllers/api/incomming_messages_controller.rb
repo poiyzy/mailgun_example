@@ -1,4 +1,4 @@
-class Api::IncommingMessagesController < ApplicationControler
+class Api::IncommingMessagesController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
