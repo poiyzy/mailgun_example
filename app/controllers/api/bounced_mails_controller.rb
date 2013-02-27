@@ -5,8 +5,7 @@ class Api::BouncedMailsController < ApplicationController
     if verify(ENV["mailgun_api_key"], params[:token], params[:timestamp], params[:signature])
       user = User.find_by_email(params[:recipient])
       if user && params[:event] == "bounced"
-        user.locked = true
-        user.save(validate: false)
+        user.lock!
       end
       head(200)
     end

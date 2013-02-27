@@ -2,7 +2,7 @@ class MailgunGateway
   include Rails.application.routes.url_helpers
 
   def send_batch_message
-    billing_recipients.find_in_batches do |group|
+    billing_recipients.find_in_batches(batch_size: 1000) do |group|
       send_billings(group)
     end
   end
@@ -11,11 +11,12 @@ class MailgunGateway
 
   def send_billings(users)
     RestClient.post(messaging_api_end_point,
-    from: "Mailgun Demo <billing-info@#{ENV["mailgun_domain_name"]}>",
+    from: "Mailgun Demo <billing@#{ENV["mailgun_domain_name"]}>",
     to: users.map(&:email).join(", "),
     subject: "Monthly Billing Info",
     html: billing_info_text,
-    :"recipient-variables" => recipient_variables(billing_recipients),
+    :"h:Reply-To" =>  "billing@#{ENV["mailgun_domain_name"]}",
+    :"recipient-variables" => recipient_variables(billing_recipients)
     )
   end
 
@@ -51,6 +52,7 @@ Your bill for the current month is now available, please click on
 <br/>
 to see details.
 </p>
+<p>Reply to this email directly</p>
 
 </body></html>
 EMAIL

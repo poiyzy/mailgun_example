@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true
   validates :fullname, presence: true
+
+  def lock!
+    self.locked = true
+    save(validate: false)
+  end
 end

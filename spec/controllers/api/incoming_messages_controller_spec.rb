@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::IncommingMessagesController do
+describe Api::IncomingMessagesController do
   context "POST create" do
     User.create fullname: "Roy", email: "roy@nvyuzhe.com", password: "poipoi"
     post :create, sender: "roy@nvyuzhe.com", "stripped-text" => "text"
